@@ -567,9 +567,10 @@ properties:
     prof_port: 0
 
   etcd:
+    <<: (( merge ))
     machines: (( merge || jobs.etcd_z1.networks.cf1.static_ips jobs.etcd_z2.networks.cf2.static_ips ))
-    require_ssl: false
-    peer_require_ssl: false
+    require_ssl: (( merge || false ))
+    peer_require_ssl: (( merge || false ))
     advertise_urls_dns_suffix: (( merge || "etcd.service.cf.internal" ))
 
   etcd_metrics_server:
@@ -618,10 +619,16 @@ properties:
     tls:
       ca_cert: ~
     etcd:
+      require_ssl: (( .properties.etcd.require_ssl ))
       machines: (( .properties.etcd.machines ))
 
   loggregator_endpoint:
     shared_secret: (( merge ))
+
+  syslog_drain_binder:
+    etcd:
+      client_cert: ~
+      client_key: ~
 
   doppler:
     message_drain_buffer_size: ~
@@ -636,6 +643,9 @@ properties:
       server_key: ~
       port: ~
       enable: ~
+    etcd:
+      client_cert: ~
+      client_key: ~
 
   doppler_endpoint:
     shared_secret: (( .properties.loggregator_endpoint.shared_secret ))
@@ -648,6 +658,9 @@ properties:
     tls:
       client_cert: ~
       client_key: ~
+    etcd:
+      client_cert: ~
+      client_key: ~
 
   metron_endpoint:
     shared_secret: (( .properties.loggregator_endpoint.shared_secret ))
@@ -658,6 +671,9 @@ properties:
     disable_access_control: (( merge || nil ))
     security_event_logging:
       enabled: (( merge || false ))
+    etcd:
+      client_cert: ~
+      client_key: ~
 
   logger_endpoint: ~
 
