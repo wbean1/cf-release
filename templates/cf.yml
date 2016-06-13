@@ -97,6 +97,10 @@ jobs:
     properties:
       metron_agent:
         zone: z1
+      consul:
+        agent:
+          services:
+            etcd: {name: loggregator-etcd}
     update:
       serial: true
       max_in_flight: 1
@@ -112,6 +116,10 @@ jobs:
     properties:
       metron_agent:
         zone: z2
+      consul:
+        agent:
+          services:
+           etcd: {name: loggregator-etcd}
     update:
       serial: true
       max_in_flight: 1
@@ -620,6 +628,7 @@ properties:
       ca_cert: ~
     etcd:
       require_ssl: (( .properties.etcd.require_ssl ))
+      ca_cert: (( .properties.etcd.ca_cert ))
       machines: (( .properties.etcd.machines ))
 
   loggregator_endpoint:
@@ -1215,6 +1224,8 @@ meta:
     release: (( meta.capi_release_name ))
   - name: metron_agent
     release: (( meta.loggregator_release_name ))
+  - name: consul_agent
+    release: (( meta.consul_release_name ))
 
   consul_templates:
   - name: consul_agent
@@ -1239,6 +1250,8 @@ meta:
     release: (( meta.etcd_release_name ))
   - name: metron_agent
     release: (( meta.loggregator_release_name ))
+  - name: consul_agent
+    release: (( meta.consul_release_name ))
 
   ha_proxy_templates:
   - name: haproxy
@@ -1274,6 +1287,8 @@ meta:
     release: (( meta.loggregator_release_name ))
   - name: metron_agent
     release: (( meta.loggregator_release_name ))
+  - name: consul_agent
+    release: (( meta.consul_release_name ))
 
   loggregator_trafficcontroller_routes:
   - name: doppler
@@ -1294,6 +1309,8 @@ meta:
     release: (( meta.loggregator_release_name ))
   - name: route_registrar
     release: (( meta.cf_release_name ))
+  - name: consul_agent
+    release: (( meta.consul_release_name ))
 
   nats_templates:
   - name: nats
@@ -1302,6 +1319,8 @@ meta:
     release: (( meta.cf_release_name ))
   - name: metron_agent
     release: (( meta.loggregator_release_name ))
+  - name: consul_agent
+    release: (( meta.consul_release_name ))
 
   blobstore_routes:
   - name: blobstore
@@ -1339,6 +1358,8 @@ meta:
     release: (( meta.cf_release_name ))
   - name: metron_agent
     release: (( meta.loggregator_release_name ))
+  - name: consul_agent
+    release: (( meta.consul_release_name ))
 
   router_templates:
   - name: consul_agent
@@ -1353,6 +1374,8 @@ meta:
     release: (( meta.cf_release_name ))
   - name: metron_agent
     release: (( meta.loggregator_release_name ))
+  - name: consul_agent
+    release: (( meta.consul_release_name ))
 
   uaa_routes:
   - name: uaa

@@ -186,6 +186,8 @@ jobs:
     release: cf
   - name: metron_agent
     release: cf
+  - name: consul_agent
+    release: cf
   update: {}
 - instances: 0
   name: nats_z2
@@ -203,6 +205,8 @@ jobs:
     release: cf
   - name: metron_agent
     release: cf
+  - name: consul_agent
+    release: cf
   update: {}
 - instances: 1
   name: etcd_z1
@@ -214,6 +218,10 @@ jobs:
   properties:
     metron_agent:
       zone: z1
+    consul:
+      agent:
+        services:
+          etcd: {name: loggregator-etcd}
   resource_pool: medium_z1
   templates:
   - name: etcd
@@ -221,6 +229,8 @@ jobs:
   - name: etcd_metrics_server
     release: cf
   - name: metron_agent
+    release: cf
+  - name: consul_agent
     release: cf
   update:
     max_in_flight: 1
@@ -234,6 +244,10 @@ jobs:
   properties:
     metron_agent:
       zone: z2
+    consul:
+      agent:
+        services:
+          etcd: {name: loggregator-etcd}
   resource_pool: medium_z2
   templates:
   - name: etcd
@@ -241,6 +255,8 @@ jobs:
   - name: etcd_metrics_server
     release: cf
   - name: metron_agent
+    release: cf
+  - name: consul_agent
     release: cf
   update:
     max_in_flight: 1
@@ -257,6 +273,8 @@ jobs:
   - name: collector
     release: cf
   - name: metron_agent
+    release: cf
+  - name: consul_agent
     release: cf
   update: {}
 - instances: 0
@@ -342,6 +360,8 @@ jobs:
   - name: postgres
     release: cf
   - name: metron_agent
+    release: cf
+  - name: consul_agent
     release: cf
   update: {}
 - instances: 1
@@ -564,6 +584,8 @@ jobs:
     release: cf
   - name: metron_agent
     release: cf
+  - name: consul_agent
+    release: cf
   update: {}
 - instances: 0
   name: api_worker_z1
@@ -753,6 +775,8 @@ jobs:
     release: cf
   - name: metron_agent
     release: cf
+  - name: consul_agent
+    release: cf
   update: {}
 - instances: 0
   name: loggregator_z2
@@ -770,6 +794,8 @@ jobs:
   - name: syslog_drain_binder
     release: cf
   - name: metron_agent
+    release: cf
+  - name: consul_agent
     release: cf
   update: {}
 - instances: 1
@@ -789,6 +815,8 @@ jobs:
     release: cf
   - name: metron_agent
     release: cf
+  - name: consul_agent
+    release: cf
   update: {}
 - instances: 0
   name: doppler_z2
@@ -806,6 +834,8 @@ jobs:
   - name: syslog_drain_binder
     release: cf
   - name: metron_agent
+    release: cf
+  - name: consul_agent
     release: cf
   update: {}
 - instances: 1
@@ -837,6 +867,8 @@ jobs:
     release: cf
   - name: route_registrar
     release: cf
+  - name: consul_agent
+    release: cf
   update: {}
 - instances: 0
   name: loggregator_trafficcontroller_z2
@@ -866,6 +898,8 @@ jobs:
   - name: metron_agent
     release: cf
   - name: route_registrar
+    release: cf
+  - name: consul_agent
     release: cf
   update: {}
 - default_networks:
@@ -3677,6 +3711,9 @@ properties:
   doppler:
     blacklisted_syslog_ranges: null
     debug: false
+    etcd:
+      client_cert: ETCD_CLIENT_CERT
+      client_key: ETCD_CLIENT_KEY
     maxRetainedLogMessages: 100
     message_drain_buffer_size: null
     port: 4443
@@ -3693,10 +3730,15 @@ properties:
     enabled: true
   etcd:
     advertise_urls_dns_suffix: etcd.service.cf.internal
+    ca_cert: ETCD_CA_CERT
+    client_cert: ETCD_CLIENT_CERT
+    client_key: ETCD_CLIENT_KEY
+    server_cert: ETCD_SERVER_CERT
+    server_key: ETCD_SERVER_KEY
     machines:
     - 10.244.0.42
-    peer_require_ssl: false
-    require_ssl: false
+    peer_require_ssl: true
+    require_ssl: true
   etcd_metrics_server:
     nats:
       machines:
@@ -3852,8 +3894,10 @@ properties:
     blacklisted_syslog_ranges: null
     debug: false
     etcd:
+      ca_cert: ETCD_CA_CERT
       machines:
       - 10.244.0.42
+      require_ssl: true
     maxRetainedLogMessages: 100
     outgoing_dropsonde_port: 8081
     tls:
@@ -3894,6 +3938,9 @@ properties:
     buffer_size: null
     deployment: cf-warden
     enable_buffer: null
+    etcd:
+      client_cert: ETCD_CLIENT_CERT
+      client_key: ETCD_CLIENT_KEY
     preferred_protocol: null
     tls:
       client_cert: null
@@ -3954,10 +4001,17 @@ properties:
     skip_cert_verify: true
   support_address: http://support.cloudfoundry.com
   syslog_daemon_config: null
+  syslog_drain_binder:
+    etcd:
+      client_cert: ETCD_CLIENT_CERT
+      client_key: ETCD_CLIENT_KEY
   system_domain: bosh-lite.com
   system_domain_organization: null
   traffic_controller:
     disable_access_control: null
+    etcd:
+      client_cert: ETCD_CLIENT_CERT
+      client_key: ETCD_CLIENT_KEY
     outgoing_port: 8080
     zone: null
     security_event_logging:

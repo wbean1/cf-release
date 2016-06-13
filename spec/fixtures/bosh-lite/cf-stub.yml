@@ -1,2 +1,29 @@
 ---
 director_uuid: DIRECTOR_UUID
+
+properties:
+  etcd:
+    server_key: ETCD_SERVER_KEY
+    server_cert: ETCD_SERVER_CERT
+    client_key: ETCD_CLIENT_KEY
+    client_cert: ETCD_CLIENT_CERT
+    ca_cert: ETCD_CA_CERT
+    require_ssl: true
+    peer_require_ssl: true
+  doppler:
+    etcd:
+      client_cert: ETCD_CLIENT_CERT
+      client_key: ETCD_CLIENT_KEY
+  traffic_controller:
+    etcd:
+      client_cert: ETCD_CLIENT_CERT
+      client_key: ETCD_CLIENT_KEY
+  syslog_drain_binder:
+    etcd:
+      client_cert: ETCD_CLIENT_CERT
+      client_key: ETCD_CLIENT_KEY
+  metron_agent:
+    etcd:
+      client_cert: ETCD_CLIENT_CERT
+      client_key: ETCD_CLIENT_KEY
+

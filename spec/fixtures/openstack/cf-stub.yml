@@ -134,6 +134,30 @@ properties:
     client_key: HM9000_CLIENT_KEY
     client_cert: HM9000_CLIENT_CERT
     ca_cert: HM9000_CA_CERT
+  etcd:
+    server_key: ETCD_SERVER_KEY
+    server_cert: ETCD_SERVER_CERT
+    client_key: ETCD_CLIENT_KEY
+    client_cert: ETCD_CLIENT_CERT
+    ca_cert: ETCD_CA_CERT
+    require_ssl: true
+    peer_require_ssl: true
+  doppler:
+   etcd:
+    client_key: ETCD_CLIENT_KEY
+    client_cert: ETCD_CLIENT_CERT
+  traffic_controller:
+   etcd:
+    client_key: ETCD_CLIENT_KEY
+    client_cert: ETCD_CLIENT_CERT
+  metron_agent:
+   etcd:
+    client_key: ETCD_CLIENT_KEY
+    client_cert: ETCD_CLIENT_CERT
+  syslog_drain_binder:
+   etcd:
+    client_key: ETCD_CLIENT_KEY
+    client_cert: ETCD_CLIENT_CERT
 
 jobs:
   - name: ha_proxy_z1
